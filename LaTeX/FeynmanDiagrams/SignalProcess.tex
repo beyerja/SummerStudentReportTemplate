@@ -1,11 +1,17 @@
-\begin{tikzpicture}
-  \begin{feynman}[scale=1] % using the vertex in brackets () allows fixing of vertex
-    \vertex[blob] (m) at (0, 0) {\contour{white}{}};
-    \vertex (a) at (-1,-1);
+% Custom Feynman diagram
+% Basic idea: 
+%   Create some points on a grid (->"vertex") 
+%   and connect them with lines (-> "diagram" section)
+
+\begin{tikzpicture} % Environment to draw various shapes (e.g. squares, feynman diagrams, ...)
+  \begin{feynman}[scale=1]
+    
+    % Structure: \vertex (name_of_point) at (x-coord., y-coord.) {Text at vertex};
+    \vertex (a) at (-1,-1); % Point with no text at x=-1, y=-1
     \vertex (b) at ( 1.25,-1) ;
     \vertex (c) at (-1, 1);
     \vertex (d) at ( 1.25, 1) ;
-    \vertex (q1) at ( 3,-1.5) {$q$};
+    \vertex (q1) at ( 3,-1.5) {$q$}; % Point with text $q$ at x=3, y=-1.5
     \vertex (q2) at ( 3,-0.5) {$\bar{q}$};
     \vertex (q3) at ( 3, 1.5) {$q$};
     \vertex (q4) at ( 3, 0.5) {$\bar{q}$};
@@ -13,8 +19,22 @@
     \vertex (o1) at ( 2.5,-2.25) {$\nu_e$};
     \vertex (i2) at (-2.5, 1) {$e^+$};
     \vertex (o2) at ( 2.5, 2.25) {$\bar{\nu_e}$};
+    % Special element in this diagram: Just a big blob in the middle...
+    \vertex[blob] (m) at (0, 0) {\contour{white}{}};
+    
+    % Describe how the points created above are connected
+    % Structure: (name_of_point_A) -- [particle_type, other options] (name_of_point_B) -- ...,
+    %   The "--" means its supposed to be a line (alternatives e.g. "->")
+    %   particle_type specifies what kind of line is drawn, e.g.:
+    %     fermion (straight line with arrow from A to B)
+    %     anti fermion (straight line with arrow from B to A)
+    %     photon (curvy line)
+    %     scalar (striped line, e.g. for Higgs)
+    %   Other options can be:
+    %     edge label=linetext (label next to the line)
+    %     swap (put edge label on other side of line)
     \diagram* {
-      (i1) -- [fermion] (a) -- [fermion] (o1) ,
+      (i1) -- [fermion] (a) -- [fermion] (o1) , % Draw fermion-like lines from point (i1) to point (a) to point (o1)
       (i2) -- [anti fermion] (c) -- [anti fermion] (o2) ,
       (a) -- [photon, edge label=$W^-$] (m),
       (m) -- [photon, edge label=$W^+$] (c),
@@ -25,5 +45,6 @@
       (d) -- [fermion] (q3),
       (d) -- [anti fermion] (q4),
     };
+    
   \end{feynman}
 \end{tikzpicture}
